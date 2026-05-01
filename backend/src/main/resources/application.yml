@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smarthire_db
+    username: postgres
+    password: root
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto:update          # schema managed by schema.sql; never let Hibernate destroy data
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_batch_fetch_size: 20
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:736D617274686972655365637265744B65793230323453656375726974794B6579}
+    expiration-ms: 86400000   # 24h
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3000,http://localhost:5173}
+
+anthropic:
+  api:
+    key: ${ANTHROPIC_API_KEY:}
+    model: claude-sonnet-4-20250514
+    url: https://api.anthropic.com/v1/messages
+    timeout-seconds: 30
+
+logging:
+  level:
+    com.smarthire: DEBUG
+    org.springframework.security: WARN
